@@ -16,12 +16,22 @@ def create_app(config_class=Config):
     # Database models ko import karna zaroori hai taaki Migrate unhe detect kar sake
     from app import models
 
-    # Blueprints ko yahan register karenge (Ye hum next step me banayenge)
-    from app.auth.routes import auth_bp
-    app.register_blueprint(auth_bp, url_prefix='/auth')
+    # Blueprints register karna
+    from app.auth import auth_bp
+    app.register_blueprint(auth_bp, url_prefix='/api/auth')
+
+    from app.admin import admin_bp
+    app.register_blueprint(admin_bp, url_prefix='/api/admin')
+
+    from app.seller import seller_bp
+    app.register_blueprint(seller_bp, url_prefix='/api/seller')
+
+    from app.user import user_bp
+    app.register_blueprint(user_bp, url_prefix='/api/user')
 
     @app.route('/')
-    def index():
-        return {"message": "Welcome to the Pro E-Commerce API!"}
+    def home():
+        return {"message": "E-Commerce API is Running!"}
 
+    # BAS YE EK LINE ADD KARNI HAI (Indentation ka dhyan rakhna)
     return app

@@ -29,6 +29,7 @@ class User(db.Model):
     public_id = db.Column(db.String(36), unique=True, nullable=False, default=lambda: str(uuid.uuid4()))
     name = db.Column(db.String(120), nullable=False)
     email = db.Column(db.String(120), unique=True, nullable=False)
+    phone_number = db.Column(db.String(20), nullable=True)
     password_hash = db.Column(db.String(255), nullable=False)
     role_id = db.Column(db.Integer, db.ForeignKey('roles.id'), nullable=False)
     is_active = db.Column(db.Boolean, default=True)
@@ -39,6 +40,14 @@ class User(db.Model):
     otps = db.relationship('OTP', backref='user', lazy=True)
     products = db.relationship('Product', backref='seller', lazy=True)
     orders = db.relationship('Order', backref='customer', lazy=True)
+
+
+    is_email_verified = db.Column(db.Boolean, default=False)
+    is_phone_verified = db.Column(db.Boolean, default=False)
+    email_otp = db.Column(db.String(6), nullable=True)
+    phone_otp = db.Column(db.String(6), nullable=True)
+
+    
 
 class OTP(db.Model):
     __tablename__ = 'otps'
